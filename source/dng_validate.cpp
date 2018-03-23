@@ -7,7 +7,7 @@
 
 #include <iostream>
 #include <string>
-#include <vector>
+#include <queue>
 #include <syslog.h>
 using namespace std;
 
@@ -39,16 +39,18 @@ string print(const dng_error_code value){
 }
 
 int main(){
-    vector<string> paths;
+    queue<string> paths;
     string s;
     while(getline(cin, s)){
-        paths.push_back(s);
+        paths.push(s);
     }
 
-    for(size_t i = 0; i < paths.size(); i++){
-        dng_negative* negative;
+    while(!paths.empty()){
+        string path = paths.front();
+        paths.pop();
+        dng_negative* negative = nullptr;
         try{
-            dng_file_stream stream(paths.at(i).c_str());
+            dng_file_stream stream(path.c_str());
             dng_host host;
             
             dng_info info;
@@ -66,23 +68,25 @@ int main(){
             
             if(negative->IsDamaged()){
                 openlog("DNG Validator", LOG_PID|LOG_CONS, LOG_LOCAL0);
-                syslog(LOG_INFO, "%s is damaged.\n", paths.at(i).c_str());
+                syslog(LOG_INFO, "%s is damaged.\n", path.c_str());
                 closelog();
             }
             else{
                  openlog("DNG Validator", LOG_PID|LOG_CONS, LOG_LOCAL0);
-                syslog(LOG_INFO, "%s is good.\n", paths.at(i).c_str());
+                syslog(LOG_INFO, "%s is good.\n", path.c_str());
                 closelog();
             }
             
             delete negative;
+            negative = nullptr;
         }
         catch(const dng_exception& e){
             openlog("DNG Validator", LOG_PID|LOG_CONS, LOG_LOCAL0);
-            syslog(LOG_ERR, "%s Error processing %s. File is probably damaged.\n", print(e.ErrorCode()).c_str(), paths.at(i).c_str());
+            syslog(LOG_ERR, "%s Error processing %s. File is probably damaged.\n", print(e.ErrorCode()).c_str(), path.c_str());
             closelog();
             if(nullptr != negative){
                 delete negative;
+                negative = nullptr;
             }
             continue;
         }
