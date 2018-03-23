@@ -11,8 +11,6 @@
 #include <syslog.h>
 using namespace std;
 
-//TODO: change data structure to queue
-
 string print(const dng_error_code value){
     const char* s;
     #define PROCESS_VAL(p) case(p): s = #p; break;
@@ -83,6 +81,16 @@ int main(){
         catch(const dng_exception& e){
             openlog("DNG Validator", LOG_PID|LOG_CONS, LOG_LOCAL0);
             syslog(LOG_ERR, "%s Error processing %s. File is probably damaged.\n", print(e.ErrorCode()).c_str(), path.c_str());
+            closelog();
+            if(nullptr != negative){
+                delete negative;
+                negative = nullptr;
+            }
+            continue;
+        }
+        catch (...){
+            openlog("DNG Validator", LOG_PID|LOG_CONS, LOG_LOCAL0);
+            syslog(LOG_ERR, "Unknown error processing %s.\n", path.c_str());
             closelog();
             if(nullptr != negative){
                 delete negative;
