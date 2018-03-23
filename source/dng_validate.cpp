@@ -74,15 +74,17 @@ int main(){
                 syslog(LOG_INFO, "%s is good.\n", paths.at(i).c_str());
                 closelog();
             }
+            
+            delete negative;
         }
         catch(const dng_exception& e){
             openlog("DNG Validator", LOG_PID|LOG_CONS, LOG_LOCAL0);
             syslog(LOG_ERR, "%s Error processing %s. File is probably damaged.\n", print(e.ErrorCode()).c_str(), paths.at(i).c_str());
             closelog();
+            if(nullptr != negative){
+                delete negative;
+            }
             continue;
-        }
-        if(nullptr != negative){
-            delete negative;
         }
     }
 
