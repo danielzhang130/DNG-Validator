@@ -1,0 +1,8 @@
+/home/daniel/xmp/build/CMakeFiles/edit_cache.dir
+/home/daniel/xmp/build/CMakeFiles/rebuild_cache.dir
+/home/daniel/xmp/XMPCore/build/gcc/static/i80386linux/Release/CMakeFiles/edit_cache.dir
+/home/daniel/xmp/XMPCore/build/gcc/static/i80386linux/Release/CMakeFiles/rebuild_cache.dir
+/home/daniel/xmp/XMPCore/build/gcc/static/i80386linux/Release/CMakeFiles/XMPCoreStatic.dir
+/home/daniel/xmp/XMPFiles/build/gcc/static/i80386linux/Release/CMakeFiles/edit_cache.dir
+/home/daniel/xmp/XMPFiles/build/gcc/static/i80386linux/Release/CMakeFiles/rebuild_cache.dir
+/home/daniel/xmp/XMPFiles/build/gcc/static/i80386linux/Release/CMakeFiles/XMPFilesStatic.dir
