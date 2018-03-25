@@ -66,12 +66,12 @@ int main(){
             
             if(negative->IsDamaged()){
                 openlog("DNG Validator", LOG_PID|LOG_CONS, LOG_LOCAL0);
-                syslog(LOG_INFO, "INFO: %s is damaged.\n", path.c_str());
+                syslog(LOG_ERR, "ERROR: %s is damaged.\n", path.c_str());
                 closelog();
             }
             else{
                  openlog("DNG Validator", LOG_PID|LOG_CONS, LOG_LOCAL0);
-                syslog(LOG_ERR, "ERROR: %s is good.\n", path.c_str());
+                syslog(LOG_INFO, "INFO: %s is good.\n", path.c_str());
                 closelog();
             }
             
