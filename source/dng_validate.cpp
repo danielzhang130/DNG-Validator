@@ -66,12 +66,12 @@ int main(){
             
             if(negative->IsDamaged()){
                 openlog("DNG Validator", LOG_PID|LOG_CONS, LOG_LOCAL0);
-                syslog(LOG_INFO, "%s is damaged.\n", path.c_str());
+                syslog(LOG_INFO, "INFO: %s is damaged.\n", path.c_str());
                 closelog();
             }
             else{
                  openlog("DNG Validator", LOG_PID|LOG_CONS, LOG_LOCAL0);
-                syslog(LOG_INFO, "%s is good.\n", path.c_str());
+                syslog(LOG_ERR, "ERROR: %s is good.\n", path.c_str());
                 closelog();
             }
             
@@ -80,7 +80,7 @@ int main(){
         }
         catch(const dng_exception& e){
             openlog("DNG Validator", LOG_PID|LOG_CONS, LOG_LOCAL0);
-            syslog(LOG_ERR, "%s Error processing %s. File is probably damaged.\n", print(e.ErrorCode()).c_str(), path.c_str());
+            syslog(LOG_ERR, "ERROR: %s Error processing %s. File is probably damaged.\n", print(e.ErrorCode()).c_str(), path.c_str());
             closelog();
             if(nullptr != negative){
                 delete negative;
@@ -90,7 +90,7 @@ int main(){
         }
         catch (...){
             openlog("DNG Validator", LOG_PID|LOG_CONS, LOG_LOCAL0);
-            syslog(LOG_ERR, "Unknown error processing %s.\n", path.c_str());
+            syslog(LOG_ERR, "ERROR: Unknown error processing %s.\n", path.c_str());
             closelog();
             if(nullptr != negative){
                 delete negative;
