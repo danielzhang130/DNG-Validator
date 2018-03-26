@@ -62,6 +62,9 @@ int main(){
             negative->Parse(host, stream, info);
             negative->PostParse(host, stream, info);
             negative->ReadStage1Image(host, stream, info);
+            if (info.fMaskIndex != -1){
+                negative->ReadTransparencyMask (host, stream, info);
+            }
             negative->ValidateRawImageDigest(host);
             
             if(negative->IsDamaged()){
